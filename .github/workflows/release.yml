@@ -1,0 +1,49 @@
+name: Build and Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      
+      - name: Install dependencies
+        run: npm install
+      
+      - name: Build plugin
+        run: npm run build
+      
+      - name: Get version from manifest
+        id: version
+        run: |
+          VERSION=$(node -p "require('./manifest.json').Version")
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+      
+      - name: Create Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: com.jase.steambp.sdPlugin.streamDeckPlugin
+          tag_name: ${{ github.ref_name }}
+          name: Release ${{ github.ref_name }}
+          body: |
+            ## Steam Big Picture Controller ${{ steps.version.outputs.version }}
+            
+            Download the `.streamDeckPlugin` file below and double-click to install.
+            
+            See [CHANGELOG.md](https://github.com/sirjmann92/streamdeck-bp-plugin/blob/main/CHANGELOG.md) for details.
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

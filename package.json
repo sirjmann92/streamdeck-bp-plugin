@@ -1,0 +1,30 @@
+{
+  "name": "steam-bigpicture-streamdeck",
+  "version": "1.0.0",
+  "description": "Stream Deck plugin for Steam Big Picture mode control",
+  "main": "bin/plugin.js",
+  "scripts": {
+    "start": "node bin/plugin.js",
+    "build": "node build.js",
+    "install-plugin": "node install.js"
+  },
+  "keywords": [
+    "streamdeck",
+    "steam",
+    "bigpicture",
+    "gaming"
+  ],
+  "author": "Jase",
+  "license": "MIT",
+  "dependencies": {
+    "ws": "^8.18.0",
+    "node-windows": "^1.0.0-beta.8",
+    "active-win": "^8.1.0"
+  },
+  "devDependencies": {
+    "archiver": "^6.0.1"
+  },
+  "engines": {
+    "node": ">=16.0.0"
+  }
+}

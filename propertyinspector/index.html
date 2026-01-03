@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Steam Big Picture Settings</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      background-color: #2d2d2d;
+      color: #d8d8d8;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 400px;
+    }
+
+    .section {
+      margin-bottom: 25px;
+    }
+
+    .section-title {
+      font-size: 13px;
+      font-weight: 600;
+      color: #9d9d9d;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 10px;
+    }
+
+    .input-group {
+      margin-bottom: 15px;
+    }
+
+    label {
+      display: block;
+      font-size: 12px;
+      color: #d8d8d8;
+      margin-bottom: 5px;
+    }
+
+    input[type="number"] {
+      width: 100%;
+      padding: 8px 10px;
+      background-color: #3d3d3d;
+      border: 1px solid #4d4d4d;
+      border-radius: 4px;
+      color: #d8d8d8;
+      font-size: 12px;
+    }
+
+    input[type="number"]:focus {
+      outline: none;
+      border-color: #0084ff;
+    }
+
+    input[type="checkbox"] {
+      margin-right: 8px;
+    }
+
+    .checkbox-group {
+      display: flex;
+      align-items: center;
+      padding: 10px 0;
+    }
+
+    .checkbox-group label {
+      margin-bottom: 0;
+      cursor: pointer;
+    }
+
+    .info-text {
+      font-size: 11px;
+      color: #7d7d7d;
+      margin-top: 5px;
+      line-height: 1.4;
+    }
+
+    select {
+      width: 100%;
+      padding: 8px 10px;
+      background-color: #3d3d3d;
+      border: 1px solid #4d4d4d;
+      border-radius: 4px;
+      color: #d8d8d8;
+      font-size: 12px;
+      cursor: pointer;
+    }
+
+    select:focus {
+      outline: none;
+      border-color: #0084ff;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Launch Settings -->
+    <div class="section">
+      <div class="section-title">Launch Settings</div>
+      
+      <div class="checkbox-group">
+        <input type="checkbox" id="alwaysBigPicture" />
+        <label for="alwaysBigPicture">Always open in Big Picture mode</label>
+      </div>
+
+      <div class="info-text">
+        When enabled, Steam will automatically enter Big Picture mode when launched.
+      </div>
+    </div>
+
+    <!-- Long Press Settings -->
+    <div class="section">
+      <div class="section-title">Long Press Action</div>
+      
+      <div class="input-group">
+        <label for="longPressAction">When holding button for 2 seconds:</label>
+        <select id="longPressAction">
+          <option value="none">Do nothing</option>
+          <option value="close">Close window (Alt+F4)</option>
+          <option value="exit">Exit Steam completely</option>
+        </select>
+      </div>
+
+      <div class="info-text">
+        Choose what happens when you hold down the button for 2 seconds. "Close window" sends Alt+F4 to Steam (minimizes to tray if configured). "Exit Steam completely" gracefully shuts down Steam.
+      </div>
+    </div>
+
+    <!-- Status Information -->
+    <div class="section">
+      <div class="section-title">Button Behavior</div>
+      <div class="info-text">
+        <strong>Short Press:</strong><br>
+        • Steam not running → Launch Steam<br>
+        • Steam running → Enter Big Picture mode<br>
+        • In Big Picture → Exit to normal mode<br><br>
+        
+        <strong>Long Press (2 seconds):</strong><br>
+        • Configurable: Close Window (Alt+F4) or Exit Steam<br><br>
+        
+        <strong>Icon States:</strong><br>
+        • Greyed out = Steam not running<br>
+        • Normal = Steam running (standard mode)<br>
+        • Highlighted = Big Picture mode active
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let websocket = null;
+    let uuid = null;
+    let actionInfo = {};
+
+    // Initialize
+    function connectElgatoStreamDeckSocket(inPort, inPropertyInspectorUUID, inRegisterEvent, inInfo, inActionInfo) {
+      uuid = inPropertyInspectorUUID;
+      actionInfo = JSON.parse(inActionInfo);
+      
+      console.log('Property Inspector initialized');
+      console.log('UUID:', uuid);
+      console.log('ActionInfo:', actionInfo);
+
+      // Connect to Stream Deck
+      websocket = new WebSocket(`ws://127.0.0.1:${inPort}`);
+
+      websocket.onopen = function() {
+        console.log('WebSocket connected');
+        const json = {
+          event: inRegisterEvent,
+          uuid: uuid
+        };
+        websocket.send(JSON.stringify(json));
+        
+        // Load initial settings
+        loadSettings(actionInfo.payload.settings || {});
+      };
+
+      websocket.onmessage = function(evt) {
+        const jsonObj = JSON.parse(evt.data);
+        console.log('Received:', jsonObj.event);
+        
+        if (jsonObj.event === 'sendToPropertyInspector') {
+          console.log('Received settings:', jsonObj.payload);
+          loadSettings(jsonObj.payload);
+        }
+      };
+    }
+
+    // Load settings into UI
+    function loadSettings(settings) {
+      console.log('Loading settings:', settings);
+      document.getElementById('alwaysBigPicture').checked = settings.alwaysBigPicture || false;
+      document.getElementById('longPressAction').value = settings.longPressAction || 'none';
+    }
+
+    // Get current settings from UI
+    function getSettings() {
+      return {
+        alwaysBigPicture: document.getElementById('alwaysBigPicture').checked,
+        longPressAction: document.getElementById('longPressAction').value
+      };
+    }
+
+    // Save settings to Stream Deck
+    function saveSettings() {
+      if (websocket && websocket.readyState === WebSocket.OPEN) {
+        const settings = getSettings();
+        console.log('Saving settings:', settings);
+        const json = {
+          action: actionInfo.action,
+          event: 'setSettings',
+          context: uuid,
+          payload: settings
+        };
+        websocket.send(JSON.stringify(json));
+      } else {
+        console.error('WebSocket not ready');
+      }
+    }
+
+    // Event listeners
+    document.getElementById('alwaysBigPicture').addEventListener('change', function() {
+      console.log('Always Big Picture changed:', this.checked);
+      saveSettings();
+    });
+
+    document.getElementById('longPressAction').addEventListener('change', function() {
+      console.log('Long press changed:', this.value);
+      saveSettings();
+    });
+  </script>
+</body>
+</html>
