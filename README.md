@@ -1,4 +1,4 @@
-# Steam Big Picture - Stream Deck Plugin
+# Steam Big Picture Controller - Stream Deck Plugin
 
 A smart Stream Deck plugin that provides intelligent Steam launcher control with Big Picture mode toggling.
 

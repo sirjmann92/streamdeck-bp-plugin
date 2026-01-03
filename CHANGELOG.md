@@ -7,7 +7,6 @@
 - Minimum Stream Deck version now 6.9
 - Using Stream Deck CLI for packaging
 - Updated to latest @elgato/streamdeck SDK
-- Simplified plugin name per marketplace guidelines
 
 ## [1.0.0] - 2025-12-18
 

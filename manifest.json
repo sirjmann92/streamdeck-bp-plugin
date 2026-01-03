@@ -1,9 +1,9 @@
 {
-  "Name": "Steam Big Picture",
+  "Name": "Steam Big Picture Controller",
   "Version": "1.0.1",
   "Author": "Jase",
   "Description": "Smart Steam launcher with Big Picture mode toggle and window management",
-  "Category": "Steam Big Picture",
+  "Category": "Steam Big Picture Controller",
   "CategoryIcon": "images/category-icon",
   "Icon": "images/plugin-icon",
   "URL": "https://github.com/sirjmann92/streamdeck-bp-plugin",

@@ -1,4 +1,4 @@
-# Contributing to Steam Big Picture
+# Contributing to Steam Big Picture Controller
 
 Thanks for your interest in contributing! This document provides guidelines for contributing to this project.
 
