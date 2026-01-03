@@ -5,7 +5,7 @@
   "main": "bin/plugin.js",
   "scripts": {
     "start": "node bin/plugin.js",
-    "build": "./build.sh",
+    "build": "node build.js",
     "install-plugin": "node install.js"
   },
   "keywords": [

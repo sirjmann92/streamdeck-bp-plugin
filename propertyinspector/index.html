@@ -113,7 +113,6 @@
       font-size: 12px;
       cursor: pointer;
     }
-      <div class="saved-indicator" id="launchSaved">✓ Saved</div>
 
     select:focus {
       outline: none;
@@ -135,6 +134,7 @@
       <div class="info-text">
         Launch Steam directly into Big Picture mode.
       </div>
+      <div class="saved-indicator" id="launchSaved">✓ Saved</div>
     </div>
 
     <!-- Long Press Settings -->
@@ -152,15 +152,15 @@
 
       <div class="info-text">
         Close minimizes to tray if configured in Steam. Exit shuts down Steam completely.
-      <div class="saved-indicator" id="longPressSaved">✓ Saved</div>
       </div>
+      <div class="saved-indicator" id="longPressSaved">✓ Saved</div>
     </div>
 
     <!-- Help -->
     <div class="section">
       <div class="section-title">Need Help?</div>
       <div class="info-text">
-        <a href="https://github.com/sirjmann92/streamdeck-bp-plugin#usage" target="_blank" style="color: #0084ff; text-decoration: none;">View Documentation</a>
+        <a href="https://github.com/sirjmann92/streamdeck-bp-plugin#usage" target="_blank">View Documentation</a>
       </div>
     </div>
   </div>
@@ -219,7 +219,9 @@
         longPressAction: document.getElementById('longPressAction').value
       };
     }
-indicatorId) {
+
+    // Save settings to Stream Deck
+    function saveSettings(indicatorId) {
       if (websocket && websocket.readyState === WebSocket.OPEN) {
         const settings = getSettings();
         console.log('Saving settings:', settings);
@@ -257,9 +259,7 @@ indicatorId) {
 
     document.getElementById('longPressAction').addEventListener('change', function() {
       console.log('Long press changed:', this.value);
-      saveSettings('longPressSaved'mentById('longPressAction').addEventListener('change', function() {
-      console.log('Long press changed:', this.value);
-      saveSettings();
+      saveSettings('longPressSaved');
     });
   </script>
 </body>
