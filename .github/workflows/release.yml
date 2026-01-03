@@ -22,6 +22,9 @@ jobs:
         with:
           node-version: '20'
       
+      - name: Install Stream Deck CLI
+        run: npm install -g @elgato/cli@latest
+      
       - name: Install dependencies
         run: npm install
       
@@ -37,7 +40,7 @@ jobs:
       - name: Create Release
         uses: softprops/action-gh-release@v1
         with:
-          files: com.jase.steambp.sdPlugin.streamDeckPlugin
+          files: com.jase.steambp.streamDeckPlugin
           tag_name: ${{ github.ref_name }}
           name: Release ${{ github.ref_name }}
           body: |

@@ -1,17 +1,18 @@
 {
   "Name": "Steam Big Picture Controller",
-  "Version": "1.0.0",
+  "Version": "1.0.1",
   "Author": "Jase",
   "Description": "Smart Steam launcher with Big Picture mode toggle and window management",
   "Category": "Steam Big Picture Controller",
   "CategoryIcon": "images/category-icon",
   "Icon": "images/plugin-icon",
   "URL": "https://github.com/sirjmann92/streamdeck-bp-plugin",
+  "UUID": "com.jase.steambp",
   "CodePath": "bin/plugin.js",
   "CodePathWin": "bin/plugin.js",
-  "SDKVersion": 2,
+  "SDKVersion": 3,
   "Software": {
-    "MinimumVersion": "6.0"
+    "MinimumVersion": "6.9"
   },
   "OS": [
     {
@@ -33,17 +34,17 @@
         {
           "Image": "images/state-off",
           "TitleAlignment": "middle",
-          "FontSize": "12"
+          "FontSize": 12
         },
         {
           "Image": "images/state-on",
           "TitleAlignment": "middle",
-          "FontSize": "12"
+          "FontSize": 12
         },
         {
           "Image": "images/state-bigpicture",
           "TitleAlignment": "middle",
-          "FontSize": "12"
+          "FontSize": 12
         }
       ],
       "SupportedInMultiActions": false,

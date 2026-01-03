@@ -1,0 +1,25 @@
+# Development files
+node_modules/
+*.log
+.git/
+.github/
+.gitignore
+.sdignore
+
+# Build files
+build.js
+install.js
+package.json
+package-lock.json
+
+# Documentation (not needed in plugin package)
+README.md
+CHANGELOG.md
+MARKETPLACE.md
+CONTRIBUTING.md
+LICENSE
+
+# Source control
+.DS_Store
+*.swp
+*~

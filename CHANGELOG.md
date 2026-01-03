@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.0.1] - 2026-01-03
+
+### Changed
+- Upgraded to SDK v3 for DRM protection
+- Minimum Stream Deck version now 6.9
+- Using Stream Deck CLI for packaging
+- Updated to latest @elgato/streamdeck SDK
+
 ## [1.0.0] - 2025-12-18
 
 ### Features
