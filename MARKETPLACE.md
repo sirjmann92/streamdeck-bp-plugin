@@ -1,4 +1,4 @@
-# Steam Big Picture Controller
+# Steam Big Picture
 
 Control Steam and Big Picture mode with a single smart button!
 
