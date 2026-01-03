@@ -82,6 +82,27 @@
       line-height: 1.4;
     }
 
+    .info-text a {
+      color: #0084ff;
+      text-decoration: none;
+    }
+
+    .info-text a:hover {
+      text-decoration: underline;
+    }
+
+    .saved-indicator {
+      font-size: 11px;
+      color: #4CAF50;
+      margin-top: 5px;
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .saved-indicator.show {
+      opacity: 1;
+    }
+
     select {
       width: 100%;
       padding: 8px 10px;
@@ -92,6 +113,7 @@
       font-size: 12px;
       cursor: pointer;
     }
+      <div class="saved-indicator" id="launchSaved">✓ Saved</div>
 
     select:focus {
       outline: none;
@@ -111,7 +133,7 @@
       </div>
 
       <div class="info-text">
-        When enabled, Steam will automatically enter Big Picture mode when launched.
+        Launch Steam directly into Big Picture mode.
       </div>
     </div>
 
@@ -120,7 +142,7 @@
       <div class="section-title">Long Press Action</div>
       
       <div class="input-group">
-        <label for="longPressAction">When holding button for 2 seconds:</label>
+        <label for="longPressAction">Hold button for 2 seconds:</label>
         <select id="longPressAction">
           <option value="none">Do nothing</option>
           <option value="close">Close window (Alt+F4)</option>
@@ -129,26 +151,16 @@
       </div>
 
       <div class="info-text">
-        Choose what happens when you hold down the button for 2 seconds. "Close window" sends Alt+F4 to Steam (minimizes to tray if configured). "Exit Steam completely" gracefully shuts down Steam.
+        Close minimizes to tray if configured in Steam. Exit shuts down Steam completely.
+      <div class="saved-indicator" id="longPressSaved">✓ Saved</div>
       </div>
     </div>
 
-    <!-- Status Information -->
+    <!-- Help -->
     <div class="section">
-      <div class="section-title">Button Behavior</div>
+      <div class="section-title">Need Help?</div>
       <div class="info-text">
-        <strong>Short Press:</strong><br>
-        • Steam not running → Launch Steam<br>
-        • Steam running → Enter Big Picture mode<br>
-        • In Big Picture → Exit to normal mode<br><br>
-        
-        <strong>Long Press (2 seconds):</strong><br>
-        • Configurable: Close Window (Alt+F4) or Exit Steam<br><br>
-        
-        <strong>Icon States:</strong><br>
-        • Greyed out = Steam not running<br>
-        • Normal = Steam running (standard mode)<br>
-        • Highlighted = Big Picture mode active
+        <a href="https://github.com/sirjmann92/streamdeck-bp-plugin#usage" target="_blank" style="color: #0084ff; text-decoration: none;">View Documentation</a>
       </div>
     </div>
   </div>
@@ -207,9 +219,7 @@
         longPressAction: document.getElementById('longPressAction').value
       };
     }
-
-    // Save settings to Stream Deck
-    function saveSettings() {
+indicatorId) {
       if (websocket && websocket.readyState === WebSocket.OPEN) {
         const settings = getSettings();
         console.log('Saving settings:', settings);
@@ -220,18 +230,34 @@
           payload: settings
         };
         websocket.send(JSON.stringify(json));
+        
+        // Show saved indicator
+        if (indicatorId) {
+          showSavedIndicator(indicatorId);
+        }
       } else {
         console.error('WebSocket not ready');
       }
     }
 
+    // Show saved feedback
+    function showSavedIndicator(id) {
+      const indicator = document.getElementById(id);
+      indicator.classList.add('show');
+      setTimeout(() => {
+        indicator.classList.remove('show');
+      }, 2000);
+    }
+
     // Event listeners
     document.getElementById('alwaysBigPicture').addEventListener('change', function() {
       console.log('Always Big Picture changed:', this.checked);
-      saveSettings();
+      saveSettings('launchSaved');
     });
 
     document.getElementById('longPressAction').addEventListener('change', function() {
+      console.log('Long press changed:', this.value);
+      saveSettings('longPressSaved'mentById('longPressAction').addEventListener('change', function() {
       console.log('Long press changed:', this.value);
       saveSettings();
     });

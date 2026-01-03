@@ -7,6 +7,9 @@
 - Minimum Stream Deck version now 6.9
 - Using Stream Deck CLI for packaging
 - Updated to latest @elgato/streamdeck SDK
+- Property Inspector UI compliance improvements (save feedback, concise help text)
+- Updated icons to meet Stream Deck marketplace requirements
+- Added documentation link in settings
 
 ## [1.0.0] - 2025-12-18
 
