@@ -10,7 +10,7 @@ A smart Stream Deck plugin that provides intelligent Steam launcher control with
 - **In Big Picture** → Exits to standard mode
 - **Long press (2s)** → Close window or exit Steam completely (configurable)
 
-### �� Dynamic Visual Feedback
+### 👁️ Dynamic Visual Feedback
 - **Greyed icon** - Steam is not running
 - **Normal icon** - Steam running in standard mode
 - **Highlighted icon** - Big Picture mode active
