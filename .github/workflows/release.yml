@@ -32,7 +32,13 @@ jobs:
         run: npm run build
       
       - name: List built files
-        run: ls -la *.streamDeckPlugin
+        run: |
+          echo "Current directory:"
+          pwd
+          echo "Files in current directory:"
+          ls -la
+          echo "Looking for .streamDeckPlugin files:"
+          ls -la *.streamDeckPlugin || echo "No .streamDeckPlugin files found"
       
       - name: Get version from manifest
         id: version
