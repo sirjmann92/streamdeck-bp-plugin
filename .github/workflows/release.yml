@@ -32,19 +32,15 @@ jobs:
         run: npm run build
       
       - name: List built files
-        run: |
-          echo "Current directory:"
-          pwd
-          echo "Files in current directory:"
-          ls -la
-          echo "Looking for .streamDeckPlugin files:"
-          ls -la *.streamDeckPlugin || echo "No .streamDeckPlugin files found"
+        run: dir *.streamDeckPlugin
+        shell: cmd
       
       - name: Get version from manifest
         id: version
         run: |
-          VERSION=$(node -p "require('./manifest.json').Version")
-          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          $version = node -p "require('./manifest.json').Version"
+          echo "version=$version" >> $env:GITHUB_OUTPUT
+        shell: pwsh
       
       - name: Create ReleasedPlugin.s
         uses: softprops/action-gh-release@v1
