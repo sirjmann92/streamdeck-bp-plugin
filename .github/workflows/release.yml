@@ -31,13 +31,16 @@ jobs:
       - name: Build plugin
         run: npm run build
       
+      - name: List built files
+        run: ls -la *.streamDeckPlugin
+      
       - name: Get version from manifest
         id: version
         run: |
           VERSION=$(node -p "require('./manifest.json').Version")
           echo "version=$VERSION" >> $GITHUB_OUTPUT
       
-      - name: Create Release
+      - name: Create ReleasedPlugin.s
         uses: softprops/action-gh-release@v1
         with:
           files: com.jase.steambp.streamDeckPlugin
