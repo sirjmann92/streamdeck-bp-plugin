@@ -35,6 +35,18 @@ jobs:
         run: dir *.streamDeckPlugin
         shell: cmd
       
+      - name: Verify file exists
+        run: |
+          if (Test-Path "com.jase.steambp.sdPlugin.streamDeckPlugin") {
+            Write-Host "✓ Plugin file found"
+            $size = (Get-Item "com.jase.steambp.sdPlugin.streamDeckPlugin").Length
+            Write-Host "File size: $size bytes"
+          } else {
+            Write-Host "✗ Plugin file NOT found"
+            exit 1
+          }
+        shell: pwsh
+      
       - name: Get version from manifest
         id: version
         run: |
@@ -42,10 +54,10 @@ jobs:
           echo "version=$version" >> $env:GITHUB_OUTPUT
         shell: pwsh
       
-      - name: Create ReleasedPlugin.s
+      - name: Create Release
         uses: softprops/action-gh-release@v1
         with:
-          files: com.jase.steambp.streamDeckPlugin
+          files: com.jase.steambp.sdPlugin.streamDeckPlugin
           tag_name: ${{ github.ref_name }}
           name: Release ${{ github.ref_name }}
           body: |
