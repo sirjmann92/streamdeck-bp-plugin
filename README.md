@@ -68,6 +68,11 @@ A smart Stream Deck plugin that provides intelligent Steam launcher control with
 
 ## Troubleshooting
 
+### Plugin won't uninstall
+- Close Stream Deck completely (right-click system tray → Quit)
+- Manually delete: `%appdata%\Elgato\StreamDeck\Plugins\com.jase.steambp.sdPlugin`
+- Restart Stream Deck
+
 ### Close window closes wrong application
 - Windows restricts background apps from stealing focus
 - Use "Exit Steam completely" for reliable shutdown
