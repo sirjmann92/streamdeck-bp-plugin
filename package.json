@@ -1,6 +1,6 @@
 {
   "name": "steam-bigpicture-streamdeck",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "Stream Deck plugin for Steam Big Picture mode control",
   "main": "bin/plugin.js",
   "scripts": {

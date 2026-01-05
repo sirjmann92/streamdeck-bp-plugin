@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.2] - 2026-01-05
+
+### Fixed
+- Fixed plugin installation package structure for Stream Deck compatibility
+- Plugin now installs correctly via double-click on .streamDeckPlugin file
+- Fixed plugin uninstallation from Stream Deck UI
+
 ## [1.0.1] - 2026-01-03
 
 ### Changed
